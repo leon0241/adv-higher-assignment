@@ -1,3 +1,23 @@
+==Basic outline==
+Object - TypingGame
+
+Page load
+  defaultGame = new typingGame (time, 60, words)
+
+Event listener for save button in settings
+  read values of buttons
+  modifiedGame = new typingGame(newTime, newDiff, words)
+
+Event listener for typed letter in box
+  start game
+
+Event listener for space bar
+  check if word is right
+  
+
+
+
+
 ==Object: typing game==
   constructor(type, difficulty, words)
     this.type = type
