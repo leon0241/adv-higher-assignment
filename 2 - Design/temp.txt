@@ -1,0 +1,29 @@
+===Import words===
+  new array words[]
+
+  open file words.txt
+  read file until eof
+  store in array words[]
+  close file
+
+===Event Listeners===
+  (start button) - Add event listener (on click, go to function playRound)
+
+===Object words===
+class website
+  constructor()
+    
+
+===Function - playRound (words)===
+  new array gameWords
+  for; loop 25 times; index i
+    function selectWord
+
+  - Input from textbox
+  - Check if word is correct
+  - Check if new line
+  -
+
+===Function - selectWord (words)===
+  pick a random word from words[]
+  append into gameWords[i]

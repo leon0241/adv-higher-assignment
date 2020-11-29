@@ -1,0 +1,31 @@
+==Object: typing game==
+  constructor(type, difficulty, words)
+    this.type = type
+    this.difficulty = difficulty
+    this.words = words
+    this.wordCount = 0
+    this.accuracy = 0
+  
+  get word(words)
+    return words[0]
+
+  set wordCount()
+    add 1 to this.wordCount
+
+  set type(value)
+    set this.type to value
+
+  set difficulty(value)
+    set this.difficulty to value
+
+  function initialise array(words)
+    (int) gameWords[]
+    for loop 1 to 30 index "loop"
+      (int) randint random number from 1 to 200
+      store words[randint] into gameWords[loop]
+    return gameWords
+
+  function new word(gameWords, words)
+    remove gameWords[0] from array and shift down
+    (int) randint random number from 1 to 200
+    append randint to gameWords
