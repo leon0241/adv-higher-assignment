@@ -1,36 +1,85 @@
 ==Basic outline==
 Object - TypingGame
+init <arr> words[] taken from words file
+init <bool> inGame
 
 Page load
-  defaultGame = new typingGame (time, 60, words)
+  init <obj> Game = new typingGame (time, 60, words)
 
-Event listener for save button in settings
+Event listener for save button in settings - go to function editGameData()
+
+Event listener for letter typed - go to function function startGame(Game)
+
+function editGameData()
   read values of buttons
-  modifiedGame = new typingGame(newTime, newDiff, words)
+  Game = new typingGame(newTime, newDiff, words)
 
-Event listener for typed letter in box
-  start game
+function startGame(Game)
+  Game.initialiseArray(words)
+  type = Game.type()
+  inGame = true
+  if type is time then
+    go to function timedGame(Game)
+  else
+    go to function wordGame(Game)
 
-Event listener for space bar
-  check if word is right
-  
+function timedGame(Game)
+  init <int> timer = Game.getCalculatedDifficulty()
+  start countdown from timer down to 0 seconds
+  when timer reaches 0 => inGame = false
+  if inGame = true then
+    Event listener for spacebar typed - go to function wordCheck()
 
+function wordGame(gameWords, Game)
+  init <int> words = Game.getCalculatedDifficulty()
+  While words > 0
+    Event listener for spacebar typed - go to function wordCheck and take 1 from words
+  inGame = false
 
+function wordCheck()
+  init <str> inputWord = contents of input box
+  init <str> wordComparison = Game.word()
+  if inputWord is equal to wordComparison then
+    change the word's text-color property to green
+    Game.wordCount(1)
+  else
+    change the word's text-color property to red
+  go to function onNewWord()
 
+function onNewWord()
+  Game.totalWords(1)
+  Game.newWord()
+  if it is the last word of the line then
+    shift the other lines of words up and append new line of words below
+  change css of selected word to next word
 
 ==Object: typing game==
   constructor(type, difficulty, words)
-    this.type = type
-    this.difficulty = difficulty
+    this.type = type (time = 0, word = 1)
+    this.difficulty = difficulty (from 0 to 2)
     this.words = words
+    this.gameWords = []
+    this.totalWords = 0
     this.wordCount = 0
     this.accuracy = 0
-  
-  get word(words)
-    return words[0]
 
-  set wordCount()
-    add 1 to this.wordCount
+  get word()
+    return this.words[0]
+
+  get type()
+    return this.type
+
+  get difficulty()
+    return this.difficulty
+
+  get gameWords()
+    return this.gameWords
+
+  set totalWords(value)
+    add value to this.totalWords
+
+  set wordCount(value)
+    add value to this.wordCount
 
   set type(value)
     set this.type to value
@@ -38,14 +87,23 @@ Event listener for space bar
   set difficulty(value)
     set this.difficulty to value
 
-  function initialise array(words)
-    (int) gameWords[]
-    for loop 1 to 30 index "loop"
-      (int) randint random number from 1 to 200
-      store words[randint] into gameWords[loop]
-    return gameWords
+  function getCalculatedDifficulty()
+    init <int> output = 0
+    switch (type and difficulty)
+      case type = 0, difficulty = 0
+        output = 20
+        break
+      repeat case for all scenarios
+    return output
 
-  function new word(gameWords, words)
+  function initialiseArray(words)
+    init <int> gameWords[]
+    for loop 1 to 30 index "loop"
+      init <int> randint random number from 1 to 200
+      store words[randint] into gameWords[loop]
+    this.gameWords = gameWords
+
+  function newWord(gameWords, words)
     remove gameWords[0] from array and shift down
-    (int) randint random number from 1 to 200
-    append randint to gameWords
+    init <int> randint random number from 1 to 200
+    append words[randint] to this.gameWords
