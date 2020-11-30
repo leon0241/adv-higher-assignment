@@ -2,13 +2,13 @@
 On Page load
   init <arr> words[] taken from words file
   init <bool> inGame
-  init <obj> Game = new typingGame (time, 60, words)
+  init <obj> Game = new Game(time, 60, words)
 
-  Event listener for save button in settings - go to function editGameData()
+  Event listener for save button - on click - go to function editGameData()
 
-  Event listener for reset button - go to function startGame()
+  Event listener for reset button - on click - go to function startGame()
 
-  Event listener for letter typed - go to function startGame()
+  Event listener for text box - on letter typed - go to function startGame()
 
   Event listener(?) for inGame = false - go to function gameEnd()
 
@@ -28,9 +28,9 @@ function startGame()
 
 function countCharacters()
   while inGame = true do
-    event listener for keypress
+    event listener for text box - on keypress =>
       don't count if backspace or shift
-    Game.keystroke(1)
+      Game.IncrementKeystrokes()
 
 function timedGame(Game)
   init <int> timer = Game.getCalculatedDifficulty()
@@ -39,14 +39,14 @@ function timedGame(Game)
     {DOM} change value of time remaining
   when timer reaches 0 => inGame = false
   while inGame = true then
-    Event listener for spacebar typed - go to function wordCheck()
+    Event listener for text box - on spacebar typed - go to function wordCheck()
 
 function wordGame(gameWords, Game)
   init <int> words = Game.getCalculatedDifficulty()
   init <int> timeTaken = 0
   While words > 0
     start timer counting up from 0
-    Event listener for spacebar typed -
+    Event listener for text box - on spacebar typed =>
       go to function wordCheck
       take 1 from words
       {DOM} change value of words remaining
@@ -61,7 +61,7 @@ function wordCheck()
     {DOM} change the word's text-color property to green
   else
     {DOM} change the word's text-color property to red
-    Game.wordErrors(1)
+    Game.IncrementWordErrors()
   go to function onNewWord()
 
 function onNewWord()
@@ -85,19 +85,11 @@ function gameEnd()
   init <float> accuracy = (wordcount - totalErrors) / wordCount * 100 -> round to nearest int
   {DOM} Change value of WPM and accuracy
 
-==Object: typing game==
+==Object: GameSettings==
   constructor(type, difficulty, words)
-    this.type = type (time = 0, word = 1)
-    this.difficulty = difficulty (from 0 to 2)
-    this.words = words
-    this.gameWords = []
-    this.wordErrors = 0
-    this.accuracy = 0
-    this.timeTaken = 0
-    this.characters = 0
-
-  get word()
-    return this.words[0]
+    <int> this.type = type (time = 0, word = 1)
+    <int> this.difficulty = difficulty (from 0 to 2)
+    <array> this.words = words
 
   get type()
     return this.type
@@ -105,32 +97,11 @@ function gameEnd()
   get difficulty()
     return this.difficulty
 
-  get gameWords()
-    return this.gameWords
-
-  get timeTaken()
-    return this.timeTaken
-
-  get characters()
-    return this.characters
-
-  set totalWords(value)
-    add value to this.totalWords
-
-  set wordErrors(value)
-    add value to this.wordErrors
-
   set type(value)
     set this.type to value
 
   set difficulty(value)
     set this.difficulty to value
-
-  set timeTaken(value)
-    set this.timeTaken to value
-
-  set keystroke(value)
-    add value to this.characters()
 
   function getCalculatedDifficulty()
     init <int> output = 0
@@ -140,6 +111,39 @@ function gameEnd()
         break
       repeat case for all scenarios
     return output
+
+==Object: Game Extends GameSettings==
+  Constructor(type, difficulty, words)
+    super(type)
+    super(difficulty)
+    super(words)
+    <array> this.gameWords = []
+    <int> this.wordErrors = 0
+    <int> this.accuracy = 0
+    <int> this.timeTaken = 0
+    <int> this.characters = 0
+
+  get gameWords()
+    return this.gameWords
+
+  get word()
+    return this.gameWords[0]
+
+  get timeTaken()
+    return this.timeTaken
+
+  get characters()
+    return this.characters
+
+  set timeTaken(value)
+    set this.timeTaken to value
+
+  function incrementWordErrors()
+    add 1 to this.wordErrors
+
+
+  function incrementKeystrokes()
+    add 1 to this.characters()
 
   function initialiseArray(words)
     init <int> gameWords[]
