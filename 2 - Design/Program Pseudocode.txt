@@ -12,6 +12,81 @@ On Page load
 
   Event listener(?) for inGame = false - go to function gameEnd()
 
+
+  ==Object: GameSettings==
+    constructor(type, difficulty, words)
+      <int> this.type = type (time = 0, word = 1)
+      <int> this.difficulty = difficulty (from 0 to 2)
+      <array> this.words = words
+
+    get type()
+      return this.type
+
+    get difficulty()
+      return this.difficulty
+
+    set type(value)
+      set this.type to value
+
+    set difficulty(value)
+      set this.difficulty to value
+
+    function getCalculatedDifficulty()
+      init <int> output = 0
+      switch (type and difficulty)
+        case type = 0, difficulty = 0
+          output = 20
+          break
+        repeat case for all scenarios
+      return output
+
+  ==Object: Game Extends GameSettings==
+    Constructor(type, difficulty, words)
+      super(type)
+      super(difficulty)
+      super(words)
+      <array> this.gameWords = []
+      <int> this.wordErrors = 0
+      <int> this.accuracy = 0
+      <int> this.timeTaken = 0
+      <int> this.characters = 0
+
+    get gameWords()
+      return this.gameWords
+
+    get word()
+      return this.gameWords[0]
+
+    get timeTaken()
+      return this.timeTaken
+
+    get characters()
+      return this.characters
+
+    set timeTaken(value)
+      set this.timeTaken to value
+
+    function incrementWordErrors()
+      add 1 to this.wordErrors
+
+
+    function incrementKeystrokes()
+      add 1 to this.characters()
+
+    function initialiseArray(words)
+      init <int> gameWords[]
+      for loop 1 to 30 index "loop"
+        init <int> randint random number from 1 to 200
+        store words[randint] into gameWords[loop]
+      this.gameWords = gameWords
+
+    function newWord(gameWords, words)
+      remove gameWords[0] from array and shift down
+      init <int> randint random number from 1 to 200
+      append words[randint] to this.gameWords
+
+==Functions==
+
 function editGameData()
   read values of buttons
   Game = new typingGame(newTime, newDiff, words)
@@ -84,75 +159,3 @@ function gameEnd()
   init <float> netWPM = (wordCount - totalErrors) / wpmFactor -> round to nearest int
   init <float> accuracy = (wordcount - totalErrors) / wordCount * 100 -> round to nearest int
   {DOM} Change value of WPM and accuracy
-
-==Object: GameSettings==
-  constructor(type, difficulty, words)
-    <int> this.type = type (time = 0, word = 1)
-    <int> this.difficulty = difficulty (from 0 to 2)
-    <array> this.words = words
-
-  get type()
-    return this.type
-
-  get difficulty()
-    return this.difficulty
-
-  set type(value)
-    set this.type to value
-
-  set difficulty(value)
-    set this.difficulty to value
-
-  function getCalculatedDifficulty()
-    init <int> output = 0
-    switch (type and difficulty)
-      case type = 0, difficulty = 0
-        output = 20
-        break
-      repeat case for all scenarios
-    return output
-
-==Object: Game Extends GameSettings==
-  Constructor(type, difficulty, words)
-    super(type)
-    super(difficulty)
-    super(words)
-    <array> this.gameWords = []
-    <int> this.wordErrors = 0
-    <int> this.accuracy = 0
-    <int> this.timeTaken = 0
-    <int> this.characters = 0
-
-  get gameWords()
-    return this.gameWords
-
-  get word()
-    return this.gameWords[0]
-
-  get timeTaken()
-    return this.timeTaken
-
-  get characters()
-    return this.characters
-
-  set timeTaken(value)
-    set this.timeTaken to value
-
-  function incrementWordErrors()
-    add 1 to this.wordErrors
-
-
-  function incrementKeystrokes()
-    add 1 to this.characters()
-
-  function initialiseArray(words)
-    init <int> gameWords[]
-    for loop 1 to 30 index "loop"
-      init <int> randint random number from 1 to 200
-      store words[randint] into gameWords[loop]
-    this.gameWords = gameWords
-
-  function newWord(gameWords, words)
-    remove gameWords[0] from array and shift down
-    init <int> randint random number from 1 to 200
-    append words[randint] to this.gameWords
