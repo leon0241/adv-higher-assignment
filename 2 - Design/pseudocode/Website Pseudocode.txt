@@ -1,0 +1,46 @@
+document.cookie - type
+document.cookie - difficulty
+document.cookie - name
+document.cookie - theme 
+
+init <int> type = 0
+init <int> difficulty = 0
+init <bool> theme = "light"
+
+Event listener for settings button - on click => open / close settings sidebar
+
+  Event listener for test type dropdown menu - on change =>  type = "dark" or "light"
+
+  Event listener for test difficulty dropdown menu - on change => difficulty = 0 < x < 2
+
+  Event listener for Light mode button - on click => theme = "light"
+  Event listener for Dark mode button - on click => theme = "dark"
+
+  Event listener for view words button - on click => show words panel
+    Event listener for sort by button - on change => sort words by alphabetical or length
+    Event listener for search button - on letter typed => search array for word
+    Event listener for back button - on click => 
+	  close words panel
+	  store type, difficulty, theme var into cookie
+	  {DOM} function to change theme
+
+Event listener for scores button - on click => open/close highscores sidebar, function show highscores
+
+On page load
+  {DOM} Game area says press to start
+  Event listener for game area - on click => start new game
+
+On GameEnd
+  {DOM} Show finish screen
+  Text box for name that is autofilled with cookie value for name, can change
+  Write scores into scores.csv and/or append to scores[]
+  Event listener for exit button - on click => Save name in cookie and reset game
+  Event listener for retry button - on click => Save name in cookie and start new game
+  Store results in scores.ini
+  
+function show Highscores
+  Read scores.csv
+  init <arr> scores[]
+  put values of scores.csv into scores[]
+  bubble sort to show top 10 scores by wpm
+  {DOM} Output values into scores divs 
