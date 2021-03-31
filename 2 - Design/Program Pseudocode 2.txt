@@ -1,0 +1,247 @@
+##Pseudocode##
+
+__Classes__
+
+// Class with methods on general settings
+Class 1 ~ GameSettings
+   // Constructor method
+   1.01 ~ string "name" - user's name
+   1.02 ~ integer "type" - time = 0, words = 1
+   1.03 ~ integer "length" - range from 0 - 2
+   1.04 ~ string[] "words" - array of top 200 words
+
+   // Getter methods
+   get name
+   get type
+   get length
+
+   // Setter methods
+   set name
+   set type
+   set length
+
+   // Other methods
+   1.1 ~ getCalculatedLength - turns [0 (time), 1] into 30 (seconds)
+   1.2 ~ setName - reads name from input field and sets name
+
+// Class with methods that has game-to-game user data
+Class 2 ~ UserGame extends GameSettings
+   // Constructor method
+   <Previous arguments>
+   2.01 ~ string[] "gameWords" - game specific array to show
+   2.02 ~ int "wordErrors" - number of mistakes user has typed
+   2.03 ~ arr "calculatedStats" - [calculated WPM, calculated accuracy]
+   2.04 ~ int "timeTaken" - time taken to complete a game
+   2.05 ~ int "characters" - total number of characters typed
+   2.06 ~ int "userWordCount" - total number of words typed(spacebar pressed)
+
+   // Getter methods
+   get gameWords
+   get word - gets current word
+   get timeTaken
+   get characters
+   get userWordCount
+   get calculatedStats
+
+   // Setter methods
+   set timeTaken
+   set calculatedStats
+   2.1 ~ incrementWordErrors - adds 1 to wordErrors
+   2.2 ~ incrementWordCount - adds 1 to userWordCount
+   2.3 ~ incrementCharacters - checks if character is valid and adds 1 if so
+
+   // Other methods
+   2.4 ~ editGameData - change the type and length of the game
+   2.5 ~ initialiseArray - constructs the gameWords array as a random 50 of the top 200 words
+   2.6 ~ wordCheck - checks if a word is correct or not
+   2.7 ~ newWord - appends a new word to the array
+   2.8 ~ calculateStats - calculates the WPM and accuracy of the player
+   2.9 ~ resetStats - resets the values of the variables
+
+// Class with methods that control the game
+Class 3 ~ GameFunctions extends UserGame
+   //Constructor method
+   <Previous arguments>
+
+   // Other methods
+   3.1 ~ startGame - starts the game
+   3.2 ~ goToTimedGame - callback function for timed game
+   3.3 ~ timeTimer - timer for a timed game
+   3.4 ~ goToWordGame - callback function for word game
+   3.5 ~ wordTimer - timer for a word game
+   3.6 ~ goToNextWord - methods that are called once a word has been typed
+
+// Class with methods that update the DOM
+Class 4 ~ DOMManipulation
+   // Constructor method
+   4.01 ~ int position - how far a word is down a line
+   4.02 ~ NodeListOf<HTMLElement> nodeList - list of all word elements in the DOM
+   4.03 ~ str theme - what theme the user is using
+
+   // Getter methods
+   get position
+   get nodeList
+   get theme
+
+   // Setter methods
+   set position
+   set theme
+
+   // Other methods
+   4.1 ~ updateNodeList - updates the node list
+   4.2 ~ updateWords - appends a word element in the DOM
+   4.3 ~ incrementPosition - adds 1 to position
+   4.4 ~ showArray - show the word elements on screen
+   4.5 ~ highlightCurrentWord - highlights the currente word
+   4.6 ~ setAnswer - sets the previous word to green or red depending on the answer
+   4.7 ~ checkRow - checks if the word is on row 2, and delete row 1
+   4.8 ~ deleteRow - deletes a row once it has gotten to the end
+   4.9 ~ displayStats - display the wpm and accuracy
+   4.10 ~ changeGameProgress - update the timer/word countdown to a value
+   4.11 ~ showStart - show the starting page
+   4.12 ~ showBackdrop - hide the start page and show the main container
+   4.13 ~ showFinish - show the finish page
+   4.14 ~ hideFinish - hide the finish page
+   4.15 ~ appendFormData - set the hidden fields values to the wpm and accuracy to submit to form
+   4.16 ~ setSettings - stores the users settings into local storage
+   4.17 ~ getSettings - gets the users settings from local storage
+
+// Class storing the scores of the player
+Class 5 ~ Scoreboard
+   // Constructor method
+   5.01 ~ [string, number][] scores - stored scores of the players
+   5.02 ~ int index - current index of the localStorage "array"
+
+   // Getter methods
+   get strLen - get index in string format
+   get scores
+   
+   // Setter methods
+   set scores
+
+   // Other methods
+   5.1 ~ addNewScore - append a score into the scores array
+   5.2 ~ submitToLocalStorage - parse and store a new score into localStorage
+   5.3 ~ parseItem - turn JSON score string into object
+   5.4 ~ initScoreboard - read localStorage, sort values and show them in DOM
+   5.5 ~ updateScoreboard - read newest value of localStorage, sort values and show them in DOM
+   5.6 ~ insertRow - shows a name, wpm score in DOM
+   5.7 ~ initIndex - calculates the index, with an offset for the number of other settings
+   
+
+
+__Detailed class functions__
+
+func 1.1 - GameSettings => getCalculatedLength()
+   var number output = 0
+
+   var str part1 = type to string
+   var str part2 = length to string
+   var str switcher = concatentate part1 and part2
+   switcher can be (00, 01, 02, 10, 11, 12)
+
+   case switch statement for each case
+      00 => set output to 30 (30 seconds)
+      01 => set output to 60 (1 minute)
+      02 => set output to 120 (2 minutes)
+      10 => set output to 25 (25 words)
+      11 => set output to 50 (50 words)
+      12 => set output to 100 (100 words)
+   
+   return output
+
+func 2.5 - UserGame => initialiseArray()
+   var string[] temporary = []
+
+   for loop to 50
+      var int randint = floor of random number from 1 to length of array
+      set temporary[index] to randint
+   
+   set gameWords(2.01) to temporary array
+
+func 2.6 - UserGame => wordCheck()
+   var str inputWord = value of typing field with spacebar trimmed
+   var str wordComparison = get word
+   
+   if inputWord is the same as wordComparison
+      go to func 4.6 ~ setAnswer(true)
+   else
+      go to func 4.6 ~ setAnswer(false)
+      to to func 2.2 ~ incrementWordErrors
+   
+   go to func 4.7 ~ checkRow
+
+func 3.6 - GameFunctions => goToNextWord()
+   go to func 4.1 ~ updateNodeList
+   go to func 2.2 ~ incrementWordCount
+   go to func 2.6 ~ wordCheck
+   go to func 2.8 ~ newWord
+   go to func 4.3 ~ incrementPosition
+   go to func 4.5 ~ highlightCurrentWord
+   
+   clear [gameTypingField] value
+
+   check if type is 1
+      go to func 4.10 ~ changeGameProgress(calculated length - userWordCount(2.06))
+
+
+
+__Game__
+
+// Init variables 
+global var inGame = false
+global var clicked = false
+
+// Init Classes
+init new GameFunctions, DOMManipulation, Scoreboard
+
+__Functions (mostly button onclick methods)__
+// On submit on form, creates new game with the settings provided
+function newGame
+   get type and name from input fields
+   go to func 2.9 ~ resetStats
+   go to func 2.4 ~ editGameData(type, length)
+   go to func 2.5 ~ initialiseArray
+   go to func 4.4 ~ showArray(gameWords(2.01))
+   go to func 4.10 ~ changeGameProgress("")
+
+// On reset button clicked
+function resetGame
+   set inGame to false
+   set clicked to false
+   go to func 2.9 ~ resetStats
+   go to func 2.5 ~ initialiseArray
+   go to func 4.4 ~ showArray(gameWords(2.01))
+   go to func 4.10 ~ changeGameProgress("")
+
+// On finish game reset button clicked
+function finishedReset
+   GameSettings => set name
+   go to func 4.14 ~ hideFinish
+   go to func 5.2 ~ submitToLocalStorage
+   go to func 5.5 ~ updateScoreboard
+   go to func resetGame
+
+__Event Listeners and load in methods__
+
+// On Window load
+on window load
+   go to func 5.4 ~ initScoreboard
+   go to func 2.5 ~ initialiseArray
+   go to func 4.4 ~ showArray(gameWords(2.01))
+
+// Start the game
+listen for onclick in [gameTypingField]
+   check if inGame is false
+      set clicked to true
+
+// Character type loop
+listen for key press on typing field
+   check if clicked is true
+      go to func 3.1 ~ startGame
+      set clicked to false
+
+   check if var inGame is true
+      go to func 2.3 ~ incrementCharacters
+      if character typed is spacebar
+         go to func 3.6 ~ goToNextWord
