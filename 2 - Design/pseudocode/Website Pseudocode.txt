@@ -1,46 +1,98 @@
-document.cookie - type
-document.cookie - difficulty
-document.cookie - name
-document.cookie - theme 
+##Event Listeners##
 
-init <int> type = 0
-init <int> difficulty = 0
-init <bool> theme = "light"
 
-Event listener for settings button - on click => open / close settings sidebar
+// Sidebar
+bool "toggle" = false 
 
-  Event listener for test type dropdown menu - on change =>  type = "dark" or "light"
+event listener for settings button onclick
+  if toggle is false then
+    go to open_sidebar(state)
+    set toggle to true
+  else
+    go to close_sidebar(state)
+    set toggle to false
 
-  Event listener for test difficulty dropdown menu - on change => difficulty = 0 < x < 2
+event listener for scores button onclick
+  if toggle is false then
+    go to open_sidebar(state)
+    set toggle to true
+  else
+    go to close_sidebar(state)
+    set toggle to false
 
-  Event listener for Light mode button - on click => theme = "light"
-  Event listener for Dark mode button - on click => theme = "dark"
+function open_sidebar(state)
+  arr "elements" = [sidebar, button, overlay]
+  if state is open then
+    add "open" class to elements
 
-  Event listener for view words button - on click => show words panel
-    Event listener for sort by button - on change => sort words by alphabetical or length
-    Event listener for search button - on letter typed => search array for word
-    Event listener for back button - on click => 
-	  close words panel
-	  store type, difficulty, theme var into cookie
-	  {DOM} function to change theme
+  else
+    remove "open" class to elements
 
-Event listener for scores button - on click => open/close highscores sidebar, function show highscores
 
-On page load
-  {DOM} Game area says press to start
-  Event listener for game area - on click => start new game
+// Light and dark mode toggle
+event listener for light mode button onclick
+  go to set_theme(light)
 
-On GameEnd
-  {DOM} Show finish screen
-  Text box for name that is autofilled with cookie value for name, can change
-  Write scores into scores.csv and/or append to scores[]
-  Event listener for exit button - on click => Save name in cookie and reset game
-  Event listener for retry button - on click => Save name in cookie and start new game
-  Store results in scores.ini
-  
-function show Highscores
-  Read scores.csv
-  init <arr> scores[]
-  put values of scores.csv into scores[]
-  bubble sort to show top 10 scores by wpm
-  {DOM} Output values into scores divs 
+event listener for dark mode button onclick
+  go to set_theme(dark)
+
+function set_theme(theme)
+  switch theme
+    case light
+      replace body classlist from "dark" to "light"
+      break
+
+    case dark
+      replace body classlist from "light" to "dark"
+      break
+
+
+// Settings radio buttons
+event listener for time radio button
+  go to choose_time_words(word, time)
+
+
+event listener for words radio button
+  go to choose_time_words(word, time)
+
+function choose_time_words(a, b)
+
+  add class "deselected" to group a
+  disable radio buttons in group a
+
+  if group b has class "deselected" then
+    enable radio buttons in group b
+
+
+// Modal
+event listener for modal exit button onclick
+  set modal display to "none"
+
+
+// Modal sort buttons
+event listener for frequency sort button onclick
+  go to func write_words(array)
+
+event listener for length sort button onclick
+  create array with [word, length]
+  sort array by length
+  go to func write_words(new array)
+
+event listener for alphabetical sort button onclick
+  sort array alphabetically
+  go to func write_words(array)
+
+function write_words(array)
+  clear contents
+  for each item in array
+    make span
+    put item in span
+    append span to modalWords
+
+
+// Other buttons
+event listener for start button onclick
+  go to func 4.12 ~ showBackdrop
+
+event listener for open modal button onclick
+  set modal display to "flex"
