@@ -11,7 +11,7 @@ SCN: 130679900
 ## [Link to final project file](5%20-%20Documentation)
 
 ### Files
-Each project folder has the draft for the individual sections  
+Each project folder has the draft and used resources for the respective section  
 The final project file is stored in Documentation folder
 1. [Analysis](1%20-%20Analysis)
 2. [Design](2%20-%20Design)
