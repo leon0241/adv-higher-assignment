@@ -1,4 +1,4 @@
-# adv-higher-assignment
+# Documentation for typing game
 
 ## Created for Advanced Higher Computing Science assignment 2021.  
 Name: En-Liang Lee  
