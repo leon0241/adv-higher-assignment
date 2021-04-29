@@ -8,9 +8,10 @@ SCN: 130679900
 
 ## [Link to website repository](https://github.com/leon0241/typings)  
 
-## [Project file stored in Documentation](5 - Documentation)
+## [Project file stored in Documentation](5%20-%20Documentation)
 
 ### Files
+Each project folder has the draft for the individual sections
 1. [Analysis](1 - Analysis)
 2. [Design](2 - Design)
 3. [Implementation](3 - Implementation)
